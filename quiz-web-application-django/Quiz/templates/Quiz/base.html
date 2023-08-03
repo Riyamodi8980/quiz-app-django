@@ -1,0 +1,34 @@
+{% extends 'Quiz/dependencies.html' %}
+{% load static%}
+{% block content %}
+    <div class="container jumbotron">
+        
+          <table style="border: 1px">
+            <h3>Quizes:</h3>
+            <tr>
+              <th>S.No.</th>
+              <th>Quiz-Name</th>
+              <th>Operation</th>
+            </tr>
+            {% for category in context%}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ category.title }}</td>
+              {% if request.user.is_staff %}
+              <!-- {% url 'newaddQuestion' category.title %} -->
+              <td><a href="{% url 'editquiz' category.title %}"><button>Edit Quiz</button></a></td>
+              {% else %}
+              <td><a href="{% url 'startquiz' category.title %}"><button>Start Quiz</button></a></td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+          </table>
+    </div>
+
+    {% if request.user.is_staff %}
+      
+      <div class="container">
+        <a href="{% url 'addCategory' %}"><button>Add More Quizes</button></a>
+      </div>
+    {% endif %} 
+{% endblock %}
